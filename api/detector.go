@@ -10,6 +10,13 @@ import (
 
 )
 
+// GetAllDetectors godoc
+// @Summary List detectors
+// @Description get all detectors
+// @Accept  json
+// @Produce  json
+// @Success 200 {array} storage.Detector
+// @Router /detectors [get]
 func (a *API) GetAllDetectors(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	ds, err := a.storage.FindAllDetectors()
 	if err != nil {
@@ -18,12 +25,12 @@ func (a *API) GetAllDetectors(w http.ResponseWriter, r *http.Request, ps httprou
 		return
 	}
 
-	if (ds == nil)	{
+	if ds == nil {
 		fmt.Printf("storage.FindAllDetectors %s \n no found", r.URL.Path)
 		write(w, 404, nil)
 		return
-	}	
-	
+	}
+
 	b, err := json.Marshal(ds)
 	if err != nil {
 		fmt.Printf("json.Marshal %s \n %s\n", r.URL.Path, err.Error())
@@ -34,6 +41,14 @@ func (a *API) GetAllDetectors(w http.ResponseWriter, r *http.Request, ps httprou
 	write(w, 200, b)
 }
 
+// GetDetector godoc
+// @Summary get detector by id
+// @Description get detector by id
+// @Accept  json
+// @Produce  json
+// @Param id query string false "name search by id" Format(int)
+// @Success 200 {object} storage.Detector
+// @Router /detector/{id} [get]
 func (a *API) GetDetector(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
 	id, err := strconv.Atoi(ps.ByName("id"))
@@ -50,12 +65,12 @@ func (a *API) GetDetector(w http.ResponseWriter, r *http.Request, ps httprouter.
 		return
 	}
 
-	if (d == nil)	{
+	if d == nil {
 		fmt.Printf("storage.FindDetector %s \n no found", r.URL.Path)
 		write(w, 404, nil)
 		return
-	}	
-	
+	}
+
 	b, err := json.Marshal(d)
 	if err != nil {
 		fmt.Printf("json.Marshal %s \n %s\n", r.URL.Path, err.Error())
