@@ -14,10 +14,7 @@ import (
 	"github.com/Cuprumbur/weather-service/docs"
 	_ "github.com/Cuprumbur/weather-service/docs"
 	"github.com/Cuprumbur/weather-service/storage"
-	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	ginSwagger "github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 )
 
@@ -25,12 +22,6 @@ func main() {
 	c := configuration.NewConfig()
 	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", c.Port)
 	docs.SwaggerInfo.BasePath = "/"
-
-	e := gin.Default()
-	e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	go func() {
-		e.Run(":1235")
-	}()
 
 	db, err := sql.Open("mysql", c.DB.User+":"+c.DB.Pass+"@/"+c.DB.Name)
 	if err != nil {
