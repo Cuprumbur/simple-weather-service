@@ -7,7 +7,9 @@ import (
 	"net/http"
 
 	"github.com/Cuprumbur/weather-service/storage"
-	"github.com/julienschmidt/httprouter"
+	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 )
 
@@ -35,28 +37,20 @@ func (a *API) Shutdown() error {
 	return a.server.Shutdown(context.Background())
 }
 
-func (a *API) bootRouter() *httprouter.Router {
-	router := httprouter.New()
+func (a *API) bootRouter() *gin.Engine {
+	router := gin.Default()
 
+	//detectors
+	router.POST("/detectors", a.CreateDetector)
 	router.GET("/detectors", a.GetAllDetectors)
 	router.GET("/detectors/:id", a.GetDetector)
-	router.GET("/pages", a.GetAll)
-	//TODO
-	// router.PUT("/pages/:id", a.Update)
-	// router.POST("/pages", a.Create)
-	// router.GET("/pages/:id", a.Get)
-	// router.DELETE("/pages/:id", a.Delete)
+	router.POST("/detectors/:id", a.UpdateDetector)
+	router.DELETE("/detectors/:id", a.DeleteDetector)
+
+	//swagger
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
-}
-
-func (a *API) GetAll(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	// a.storage.
-	write(w, 200, []byte(`{"stub message":"Ok"}`))
-}
-
-func okResponce() []byte {
-	return []byte(`{"message":"Ok"}`)
 }
 
 func write(w http.ResponseWriter, statusCode int, body []byte) {

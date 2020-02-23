@@ -16,28 +16,9 @@ info:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
-  title: Swagger Example API
-  version: "1.0"
+  title: Swagger Example API of the weather server
+  version: "0.1"
 paths:
-  /detector/{id}:
-    get:
-      consumes:
-      - application/json
-      description: get detector by id
-      parameters:
-      - description: name search by id
-        format: int
-        in: query
-        name: id
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/storage.Detector'
-      summary: get detector by id
   /detectors:
     get:
       consumes:
@@ -53,4 +34,69 @@ paths:
               $ref: '#/definitions/storage.Detector'
             type: array
       summary: List detectors
+    post:
+      consumes:
+      - application/json
+      description: create detector
+      parameters:
+      - description: Detector
+        in: body
+        name: detector
+        required: true
+        schema:
+          $ref: '#/definitions/storage.Detector'
+      produces:
+      - application/json
+      summary: create detector
+  /detectors/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete detector
+      parameters:
+      - description: Id of detector
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      summary: delete detector
+    get:
+      consumes:
+      - application/json
+      description: get detector by id
+      parameters:
+      - description: Id of detector
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/storage.Detector'
+      summary: get detector by id
+    post:
+      consumes:
+      - application/json
+      description: update detector
+      parameters:
+      - description: Id of detector
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Detector
+        in: body
+        name: detector
+        required: true
+        schema:
+          $ref: '#/definitions/storage.Detector'
+      produces:
+      - application/json
+      summary: update detector
 swagger: "2.0"

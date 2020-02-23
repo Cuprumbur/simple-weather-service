@@ -16,7 +16,7 @@ import (
 	"github.com/Cuprumbur/weather-service/storage"
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/swaggo/gin-swagger"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
 
 )
@@ -24,7 +24,7 @@ import (
 func main() {
 	c := configuration.NewConfig()
 	docs.SwaggerInfo.Host = fmt.Sprintf("localhost:%d", c.Port)
-	docs.SwaggerInfo.BasePath = ""
+	docs.SwaggerInfo.BasePath = "/"
 
 	e := gin.Default()
 	e.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
@@ -57,8 +57,8 @@ func main() {
 	}
 }
 
-// @title Swagger Example API
-// @version 1.0
+// @title Swagger Example API of the weather server
+// @version 0.1
 // @description This is a simple weather server.
 // @termsOfService http://swagger.io/terms/
 
