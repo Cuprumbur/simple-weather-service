@@ -1,9 +1,11 @@
 definitions:
-  storage.Detector:
+  model.Detector:
     properties:
       id:
         type: integer
       name:
+        type: string
+      serial:
         type: string
     type: object
 info:
@@ -31,7 +33,7 @@ paths:
           description: OK
           schema:
             items:
-              $ref: '#/definitions/storage.Detector'
+              $ref: '#/definitions/model.Detector'
             type: array
       summary: List detectors
     post:
@@ -44,9 +46,14 @@ paths:
         name: detector
         required: true
         schema:
-          $ref: '#/definitions/storage.Detector'
+          $ref: '#/definitions/model.Detector'
       produces:
       - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Detector'
       summary: create detector
   /detectors/{id}:
     delete:
@@ -78,7 +85,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/storage.Detector'
+            $ref: '#/definitions/model.Detector'
       summary: get detector by id
     post:
       consumes:
@@ -95,7 +102,7 @@ paths:
         name: detector
         required: true
         schema:
-          $ref: '#/definitions/storage.Detector'
+          $ref: '#/definitions/model.Detector'
       produces:
       - application/json
       summary: update detector

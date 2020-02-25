@@ -13,7 +13,7 @@ type DbInfo struct {
 
 func NewConfig() *Config {
 	return &Config{
-		Port: 1234,
+		Port: 3001,
 		DB: &DbInfo{
 			User: "root",
 			Pass: "my-secret-pw",

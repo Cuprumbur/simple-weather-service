@@ -32,7 +32,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/storage.Detector"
+                                "$ref": "#/definitions/model.Detector"
                             }
                         }
                     }
@@ -54,10 +54,18 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/storage.Detector"
+                            "$ref": "#/definitions/model.Detector"
                         }
                     }
-                ]
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Detector"
+                        }
+                    }
+                }
             }
         },
         "/detectors/{id}": {
@@ -83,7 +91,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/storage.Detector"
+                            "$ref": "#/definitions/model.Detector"
                         }
                     }
                 }
@@ -111,7 +119,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/storage.Detector"
+                            "$ref": "#/definitions/model.Detector"
                         }
                     }
                 ]
@@ -138,13 +146,16 @@
         }
     },
     "definitions": {
-        "storage.Detector": {
+        "model.Detector": {
             "type": "object",
             "properties": {
                 "id": {
                     "type": "integer"
                 },
                 "name": {
+                    "type": "string"
+                },
+                "serial": {
                     "type": "string"
                 }
             }
