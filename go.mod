@@ -18,10 +18,13 @@ require (
 	github.com/labstack/gommon v0.3.0
 	github.com/mailru/easyjson v0.7.1 // indirect
 	github.com/mattn/go-shellwords v1.0.10 // indirect
+	github.com/stretchr/testify v1.4.0
 	github.com/swaggo/echo-swagger v0.0.0-20191205130555-62f81ea88919
 	github.com/swaggo/files v0.0.0-20190704085106-630677cd5c14
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.5
+	github.com/vektra/mockery v0.0.0-20181123154057-e78b021dcbb5 // indirect
+	golang.org/x/crypto v0.0.0-20191011191535-87dc89f01550
 	golang.org/x/net v0.0.0-20200222125558-5a598a2470a0 // indirect
 	golang.org/x/tools v0.0.0-20200221224223-e1da425f72fd // indirect
 	gopkg.in/urfave/cli.v1 v1.20.0 // indirect
