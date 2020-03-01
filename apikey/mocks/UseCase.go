@@ -12,20 +12,6 @@ type UseCase struct {
 	mock.Mock
 }
 
-// CheckAccess provides a mock function with given fields: apiKey, detectorID, scope
-func (_m *UseCase) CheckAccess(apiKey string, detectorID int, scope string) error {
-	ret := _m.Called(apiKey, detectorID, scope)
-
-	var r0 error
-	if rf, ok := ret.Get(0).(func(string, int, string) error); ok {
-		r0 = rf(apiKey, detectorID, scope)
-	} else {
-		r0 = ret.Error(0)
-	}
-
-	return r0
-}
-
 // CreateApiKey provides a mock function with given fields: detectorID, scopes
 func (_m *UseCase) CreateApiKey(detectorID int, scopes []string) (string, error) {
 	ret := _m.Called(detectorID, scopes)
@@ -47,13 +33,13 @@ func (_m *UseCase) CreateApiKey(detectorID int, scopes []string) (string, error)
 	return r0, r1
 }
 
-// Delete provides a mock function with given fields: keyHash
-func (_m *UseCase) Delete(keyHash string) error {
-	ret := _m.Called(keyHash)
+// Delete provides a mock function with given fields: id
+func (_m *UseCase) Delete(id int) error {
+	ret := _m.Called(id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string) error); ok {
-		r0 = rf(keyHash)
+	if rf, ok := ret.Get(0).(func(int) error); ok {
+		r0 = rf(id)
 	} else {
 		r0 = ret.Error(0)
 	}
@@ -84,13 +70,13 @@ func (_m *UseCase) FindAllApiKeys() ([]*model.ApiKey, error) {
 	return r0, r1
 }
 
-// FindApiKeys provides a mock function with given fields: idDetector
-func (_m *UseCase) FindApiKeys(idDetector int) ([]*model.ApiKey, error) {
-	ret := _m.Called(idDetector)
+// FindApiKeys provides a mock function with given fields: detectorID
+func (_m *UseCase) FindApiKeys(detectorID int) ([]*model.ApiKey, error) {
+	ret := _m.Called(detectorID)
 
 	var r0 []*model.ApiKey
 	if rf, ok := ret.Get(0).(func(int) []*model.ApiKey); ok {
-		r0 = rf(idDetector)
+		r0 = rf(detectorID)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).([]*model.ApiKey)
@@ -99,7 +85,7 @@ func (_m *UseCase) FindApiKeys(idDetector int) ([]*model.ApiKey, error) {
 
 	var r1 error
 	if rf, ok := ret.Get(1).(func(int) error); ok {
-		r1 = rf(idDetector)
+		r1 = rf(detectorID)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -107,13 +93,13 @@ func (_m *UseCase) FindApiKeys(idDetector int) ([]*model.ApiKey, error) {
 	return r0, r1
 }
 
-// UpdateScopes provides a mock function with given fields: keyHash, scopes
-func (_m *UseCase) UpdateScopes(keyHash string, scopes []string) error {
-	ret := _m.Called(keyHash, scopes)
+// UpdateScopes provides a mock function with given fields: id, scopes
+func (_m *UseCase) UpdateScopes(id int, scopes []string) error {
+	ret := _m.Called(id, scopes)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, []string) error); ok {
-		r0 = rf(keyHash, scopes)
+	if rf, ok := ret.Get(0).(func(int, []string) error); ok {
+		r0 = rf(id, scopes)
 	} else {
 		r0 = ret.Error(0)
 	}

@@ -16,6 +16,63 @@
         "version": "0.1"
     },
     "paths": {
+        "/apikeys": {
+            "get": {
+                "description": "get all api keys",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List api keys",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.ApiKey"
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "create api key",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create api key",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Id of detector",
+                        "name": "detector_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "scopes",
+                        "name": "scopes",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/string"
+                        }
+                    }
+                }
+            }
+        },
         "/detectors": {
             "get": {
                 "description": "get all detectors",
@@ -146,6 +203,26 @@
         }
     },
     "definitions": {
+        "model.ApiKey": {
+            "type": "object",
+            "properties": {
+                "detectorID": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "key": {
+                    "type": "string"
+                },
+                "scopes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "model.Detector": {
             "type": "object",
             "properties": {

@@ -1,4 +1,17 @@
 definitions:
+  model.ApiKey:
+    properties:
+      detectorID:
+        type: integer
+      id:
+        type: integer
+      key:
+        type: string
+      scopes:
+        items:
+          type: string
+        type: array
+    type: object
   model.Detector:
     properties:
       id:
@@ -21,6 +34,44 @@ info:
   title: Swagger Example API of the weather server
   version: "0.1"
 paths:
+  /apikeys:
+    get:
+      consumes:
+      - application/json
+      description: get all api keys
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/model.ApiKey'
+            type: array
+      summary: List api keys
+    post:
+      consumes:
+      - application/json
+      description: create api key
+      parameters:
+      - description: Id of detector
+        in: query
+        name: detector_id
+        required: true
+        type: integer
+      - description: scopes
+        in: query
+        name: scopes
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/string'
+      summary: Create api key
   /detectors:
     get:
       consumes:

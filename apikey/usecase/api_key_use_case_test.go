@@ -4,7 +4,7 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/Cuprumbur/weather-service/api-key/mocks"
+	"github.com/Cuprumbur/weather-service/apikey/mocks"
 	detectorMock "github.com/Cuprumbur/weather-service/detector/mocks"
 	"github.com/Cuprumbur/weather-service/model"
 	"github.com/stretchr/testify/assert"
@@ -13,6 +13,7 @@ import (
 )
 
 func TestCreatApiKey(t *testing.T) {
+	
 	t.Run("success creating api key", func(t *testing.T) {
 
 		detectorRepo := &detectorMock.Repository{}

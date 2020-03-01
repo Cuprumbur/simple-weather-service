@@ -8,15 +8,18 @@ import (
 	"os/signal"
 	"time"
 
+	_apikeyHttpDelivery "github.com/Cuprumbur/weather-service/apikey/delivery/http"
+	_apikeyRepo "github.com/Cuprumbur/weather-service/apikey/repository"
+	_apikeyUsecase "github.com/Cuprumbur/weather-service/apikey/usecase"
 	"github.com/Cuprumbur/weather-service/configuration"
-	"github.com/Cuprumbur/weather-service/detector/delivery/http"
-	detector "github.com/Cuprumbur/weather-service/detector/repository"
-	usecase "github.com/Cuprumbur/weather-service/detector/usecase"
+	_detectorHttpDelivery "github.com/Cuprumbur/weather-service/detector/delivery/http"
+	_detectorRepo "github.com/Cuprumbur/weather-service/detector/repository"
+	_detectorUsecase "github.com/Cuprumbur/weather-service/detector/usecase"
 	"github.com/Cuprumbur/weather-service/docs"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/labstack/echo/v4"
 	logEcho "github.com/labstack/gommon/log"
-	"github.com/swaggo/echo-swagger"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 // @title Swagger Example API of the weather server
@@ -42,15 +45,19 @@ func main() {
 		panic(err.Error())
 	}
 
-	r := detector.NewMySqlDetectorRepository(db)
-	u := usecase.NewDetectorUseCase(r)
+	detectorRepo := _detectorRepo.NewMySqlDetectorRepository(db)
+	detectorUseCase := _detectorUsecase.NewDetectorUseCase(detectorRepo)
+
+	apikeyRepo := _apikeyRepo.NewMySqlApiKeyRepository(db)
+	apikeyUsecase := _apikeyUsecase.NewApiKeyUseCase(detectorRepo, apikeyRepo)
 
 	e := echo.New()
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.SetLevel(logEcho.DEBUG)
 
-	http.SetupDetectorHandler(e, u)
+	_detectorHttpDelivery.SetupDetectorHandler(e, detectorUseCase)
+	_apikeyHttpDelivery.SetupApiKeyHandler(e, apikeyUsecase)
 
 	// Start server
 	go func() {
