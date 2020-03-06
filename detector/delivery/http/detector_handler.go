@@ -6,7 +6,6 @@ import (
 	"github.com/Cuprumbur/weather-service/detector"
 	"github.com/Cuprumbur/weather-service/model"
 	"github.com/labstack/echo/v4"
-
 )
 
 type detectorHandler struct {

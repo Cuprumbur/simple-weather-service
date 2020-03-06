@@ -9,11 +9,10 @@ import (
 	"github.com/Cuprumbur/weather-service/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-
 )
 
 func TestCreatApiKey(t *testing.T) {
-	
+
 	t.Run("success creating api key", func(t *testing.T) {
 
 		detectorRepo := &detectorMock.Repository{}
@@ -39,7 +38,7 @@ func TestCreatApiKey(t *testing.T) {
 		errMsg := "not found"
 
 		detectorRepo.On("FindDetector", mock.Anything).Return(nil, errors.New(errMsg))
-		
+
 		apikeyRepo := &mocks.Repository{}
 		useCase := NewApiKeyUseCase(detectorRepo, apikeyRepo)
 
@@ -51,13 +50,12 @@ func TestCreatApiKey(t *testing.T) {
 		assert.EqualError(t, err, errMsg)
 	})
 
-
 	t.Run("error failed Detector not found", func(t *testing.T) {
 
 		detectorRepo := &detectorMock.Repository{}
 
 		detectorRepo.On("FindDetector", mock.Anything).Return(nil, nil)
-		
+
 		apikeyRepo := &mocks.Repository{}
 		useCase := NewApiKeyUseCase(detectorRepo, apikeyRepo)
 

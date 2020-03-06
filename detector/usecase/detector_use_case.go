@@ -14,7 +14,7 @@ func NewDetectorUseCase(r detector.Repository) detector.UseCase {
 }
 
 func (u *detectorUseCase) FindDetector(id int) (d *model.Detector, err error) {
-	return u.r.FindDetector(id);
+	return u.r.FindDetector(id)
 }
 
 func (u *detectorUseCase) FindAllDetectors() (detectors []*model.Detector, err error) {

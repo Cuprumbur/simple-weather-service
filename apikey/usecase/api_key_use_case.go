@@ -9,6 +9,7 @@ import (
 	apikey "github.com/Cuprumbur/weather-service/apikey"
 	detector "github.com/Cuprumbur/weather-service/detector"
 	"github.com/Cuprumbur/weather-service/model"
+	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -67,14 +68,25 @@ func (u *apiKeyUseCase) CreateApiKey(detectorID int, scopes []string) (string, e
 		return "", errors.New("detector does not exist")
 	}
 
-	key := generateKey()
-	k, err := combinePrefixHash(key)
+	id, err := uuid.NewRandom()
+	if err != nil {
+		return "", err
+	}
+
+	strID := id.String()
+	prefix, err := subString(strID, ApiKeyPrefixLength)
+	if err != nil {
+		return "", err
+	}
+
+	hash, err := hash(strID)
 	if err != nil {
 		return "", err
 	}
 
 	modelKey := model.ApiKey{
-		HashKey:    k,
+		HashKey:    hash,
+		Prefix:     prefix,
 		Scopes:     scopes,
 		DetectorID: detectorID,
 	}
@@ -84,53 +96,24 @@ func (u *apiKeyUseCase) CreateApiKey(detectorID int, scopes []string) (string, e
 		return "", err
 	}
 
-	return key, nil
+	return strID, nil
 }
 
-var (
-	letters      = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-	lengthPrefix = 5
-	lengthKey    = 30
-)
+var ApiKeyPrefixLength = 5
 
-func generateKey() string {
-	b := make([]rune, lengthKey)
-	length := len(letters)
-	for i := range b {
-		b[i] = letters[rand.Intn(length)]
+func subString(str string, length int) (string, error) {
+	asRune := []rune(str)
+	if len(asRune) < length {
+		return "", errors.New("Length of str cannot be shorter then length of sub-string")
 	}
-
-	return string(b)
+	return string(asRune[:length]), nil
 }
 
-func combinePrefixHash(key string) (string, error) {
-	prefix, err := getPrefix(key, lengthPrefix)
+func hash(str string) (string, error) {
+	hash, err := bcrypt.GenerateFromPassword([]byte(str), bcrypt.MinCost)
 	if err != nil {
 		return "", err
 	}
 
-	hash, err := calcHash(key)
-	if err != nil {
-		return "", err
-	}
-
-	return prefix + "." + hash, nil
-}
-
-func getPrefix(key string, length int) (string, error) {
-	if key == "" {
-		return "", errors.New("key cannot be empty")
-	}
-	runes := []rune(key)
-
-	prefix := string(runes[0:length])
-	return prefix, nil
-}
-
-func calcHash(apiKey string) (string, error) {
-	hash, err := bcrypt.GenerateFromPassword([]byte(apiKey), bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
 	return string(hash), nil
 }
